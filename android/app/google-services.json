@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "648692444988",
+    "project_id": "gossiper-18ae1",
+    "storage_bucket": "gossiper-18ae1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:648692444988:android:92903465015802703f7839",
+        "android_client_info": {
+          "package_name": "com.example.texting"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "648692444988-8m47jlh19s4pqd1uukq61eoirftgaptv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUDOA6C7ciPBLj0txZRef299ATWWYTRfQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "648692444988-8m47jlh19s4pqd1uukq61eoirftgaptv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

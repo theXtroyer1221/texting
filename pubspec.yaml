@@ -1,5 +1,5 @@
 name: texting
-description: A new Flutter project.
+description: A new Flutter project where users can chat together.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -27,6 +27,10 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+
+  cloud_firestore:
+  firebase_core:
+
   flutter:
     sdk: flutter
 
