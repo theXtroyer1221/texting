@@ -37,18 +37,43 @@ class _HomePageState extends State<HomePage> {
                   itemCount: data.size,
                   itemBuilder: (context, index) {
                     return Container(
-                      padding: EdgeInsets.symmetric(vertical: 20),
-                      child: Card(
-                        margin: const EdgeInsets.all(3),
-                        child: Column(
-                          children: [
-                            Image.network(data.docs[index]["image"].toString()),
-                            ListTile(
-                              title: Text(data.docs[index]["title"].toString()),
-                              subtitle:
-                                  Text(data.docs[index]["text"].toString()),
-                            ),
-                          ],
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Hero(
+                        tag: data.docs[index]["title"].toString(),
+                        child: Card(
+                          margin: const EdgeInsets.all(3),
+                          child: Column(
+                            children: [
+                              Image.network(
+                                data.docs[index]["image"].toString(),
+                                height: 150,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              ),
+                              Container(
+                                margin: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: ListTile(
+                                        title: Text(data.docs[index]["title"]
+                                            .toString()),
+                                        subtitle: Text(data.docs[index]["text"]
+                                            .toString()),
+                                      ),
+                                    ),
+                                    Text(
+                                      data.docs[index]["price"].toString(),
+                                      style: const TextStyle(
+                                          color: Colors.green, fontSize: 30),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     );

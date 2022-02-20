@@ -30,6 +30,8 @@ dependencies:
 
   cloud_firestore:
   firebase_core:
+  firebase_storage:
+  image_picker:
 
   flutter:
     sdk: flutter
