@@ -1,6 +1,6 @@
+// ignore_for_file: avoid_print, unused_import
 import 'dart:io';
-
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -53,6 +53,23 @@ class _PostFormState extends State<PostForm> {
   var image = "";
   XFile? upload;
 
+  pickPicture(selectedMethod) async {
+    upload = await ImagePicker().pickImage(source: selectedMethod);
+
+    var imageFile = File(upload!.path);
+    var storageRef = firebaseStorage.ref().child("card/$imageFile");
+    var uploadTask = storageRef.putFile(imageFile);
+    var taskSnapshot = await uploadTask;
+    taskSnapshot.ref.getDownloadURL().then(
+      (value) {
+        setState(() {
+          image = value;
+        });
+      },
+    );
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     CollectionReference cards = FirebaseFirestore.instance.collection("cards");
@@ -67,7 +84,7 @@ class _PostFormState extends State<PostForm> {
               onChanged: (value) => title = value,
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return "Please enter some text";
+                  return "You cant leave the field empty";
                 }
                 return null;
               },
@@ -78,40 +95,44 @@ class _PostFormState extends State<PostForm> {
               onChanged: (value) => text = value,
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return "Please enter some text";
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              decoration: const InputDecoration(
-                  hintText: "What is the price of the service?",
-                  labelText: "Price"),
-              onChanged: (value) => price = int.parse(value),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Please enter some text";
+                  return "You cant leave the field empty";
                 }
                 return null;
               },
             ),
             TextButton(
-                onPressed: () async {
-                  upload = await ImagePicker()
-                      .pickImage(source: ImageSource.gallery);
-
-                  var imageFile = File(upload!.path);
-                  var storageRef =
-                      firebaseStorage.ref().child("card/$imageFile");
-                  var uploadTask = storageRef.putFile(imageFile);
-                  var taskSnapshot = await uploadTask;
-                  taskSnapshot.ref.getDownloadURL().then(
-                    (value) {
-                      setState(() {
-                        image = value;
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return SizedBox(
+                          height: 100,
+                          child: Column(
+                            children: [
+                              TextButton(
+                                child: Row(
+                                  children: const [
+                                    Icon(Icons.camera_alt),
+                                    Text('Camera')
+                                  ],
+                                ),
+                                onPressed: () =>
+                                    pickPicture(ImageSource.camera),
+                              ),
+                              TextButton(
+                                child: Row(
+                                  children: const [
+                                    Icon(Icons.photo),
+                                    Text('Gallery')
+                                  ],
+                                ),
+                                onPressed: () =>
+                                    pickPicture(ImageSource.gallery),
+                              )
+                            ],
+                          ),
+                        );
                       });
-                    },
-                  );
                 },
                 child: const Text("Upload image")),
             Image.network(
@@ -129,13 +150,15 @@ class _PostFormState extends State<PostForm> {
                       if (_formKey.currentState!.validate()) {
                         ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                                content: Text("Proccesing the data")));
+                                content: Text("Processing the data")));
+                        var dateToday = DateTime.now();
                         cards
                             .add({
                               "title": title,
                               "text": text,
-                              "price": price,
-                              "image": image
+                              "price": 0,
+                              "image": image,
+                              "date": dateToday
                             })
                             .then((value) => print("Post Added"))
                             .catchError(

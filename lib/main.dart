@@ -27,11 +27,12 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.purple,
+        primarySwatch: Colors.deepPurple,
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: const Text("Gosspier"),
+          centerTitle: true,
+          title: const Text("Gossiper"),
         ),
         body: _pages[_currentIndex],
         bottomNavigationBar: BottomNavigationBar(
